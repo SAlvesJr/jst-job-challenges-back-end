@@ -12,10 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 
-import org.hibernate.validator.constraints.Length;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_cliente")
@@ -25,24 +23,20 @@ public class Cliente implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@NotEmpty(message="Preenchimento obrigatório")
-	@Length(min = 4, max = 120, message = "o tamanho deve ter de 5 a 120 caracteries")
+
 	private String nome;
-	
-	@NotEmpty(message="Preenchimento obrigatório")
-	@Email(message = "email invalido")
+
 	@Column(unique = true)
 	private String email;
 
-	@NotEmpty(message="Preenchimento obrigatório")
+	@JsonIgnore
 	private String senha;
-	
+
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<CharacterFavorite> characterFavorite = new ArrayList<>();
-	
+
 	public Cliente() {
-		
+
 	}
 
 	public Cliente(Long id, String nome, String email, String senha) {

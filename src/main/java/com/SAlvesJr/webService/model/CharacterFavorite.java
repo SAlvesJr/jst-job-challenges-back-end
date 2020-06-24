@@ -21,6 +21,7 @@ public class CharacterFavorite implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	private Long idCharacter;
 	
 	@JsonIgnore
 	@JoinColumn(name = "cliente_id")
@@ -30,9 +31,10 @@ public class CharacterFavorite implements Serializable {
 
 	}
 
-	public CharacterFavorite(Long id, String name, Cliente cli) {
+	public CharacterFavorite(Long id, String name, Long idCharacter , Cliente cli) {
 		this.id = id;
 		this.name = name;
+		this.idCharacter = idCharacter;
 		this.setCliente(cli);
 	}
 
@@ -42,6 +44,14 @@ public class CharacterFavorite implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getIdCharacter() {
+		return idCharacter;
+	}
+
+	public void setIdCharacter(Long idCharacter) {
+		this.idCharacter = idCharacter;
 	}
 
 	public String getName() {

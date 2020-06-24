@@ -20,7 +20,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.SAlvesJr.webService.model.CharacterFavorite;
 import com.SAlvesJr.webService.model.Cliente;
+import com.SAlvesJr.webService.model.dto.CharacterAddFovoriteDTO;
 import com.SAlvesJr.webService.model.dto.ClienteDTO;
+import com.SAlvesJr.webService.model.dto.ClienteNewDTO;
 import com.SAlvesJr.webService.service.ClienteService;
 
 @RestController
@@ -43,8 +45,8 @@ public class ClienteResource {
 	}
 
 	@PostMapping(value = "/{id}/addFavorite")
-	public ResponseEntity<Void> addFavorite(@RequestBody CharacterFavorite crFavorite, @PathVariable Long id) {
-		CharacterFavorite obj = clienteService.addCharacterFavorite(id, crFavorite.getId());
+	public ResponseEntity<Void> addFavorite(@RequestBody CharacterAddFovoriteDTO crFavorite, @PathVariable Long id) {
+		CharacterFavorite obj = clienteService.addCharacterFavorite(id, crFavorite.getIdCharacter());
 		URI uri = ServletUriComponentsBuilder.fromCurrentServletMapping().path("clientes/{id}/favoriteList")
 				.buildAndExpand(obj.getCliente()).toUri();
 		return ResponseEntity.created(uri).build();
@@ -57,8 +59,9 @@ public class ClienteResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> insertCliente(@Valid @RequestBody Cliente objDTO) {
-		Cliente cli = clienteService.insert(objDTO);
+	public ResponseEntity<Void> insertCliente(@Valid @RequestBody ClienteNewDTO objDTO) {
+		Cliente cli = clienteService.fromDTO(objDTO);
+		cli = clienteService.insert(cli);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cli.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}

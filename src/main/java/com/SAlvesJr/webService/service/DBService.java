@@ -32,8 +32,8 @@ public class DBService {
 		clienteRepository.saveAll(Arrays.asList(cl1));
 		clienteRepository.saveAll(Arrays.asList(cl2));
 
-		CharacterFavorite crF1 = new CharacterFavorite(null, "Batman", cl1);
-		CharacterFavorite crF2 = new CharacterFavorite(null, "Spidemand", cl1);
+		CharacterFavorite crF1 = new CharacterFavorite(null, "Batman", 70L, cl1);
+		CharacterFavorite crF2 = new CharacterFavorite(null, "Agent Bob", 10L, cl1);
 
 		cl1.getCharacterFavorite().addAll(Arrays.asList(crF1, crF2));
 		

@@ -1,7 +1,10 @@
 package com.SAlvesJr.webService.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +15,7 @@ import com.SAlvesJr.webService.model.CharacterFavorite;
 import com.SAlvesJr.webService.model.CharacterOBJ;
 import com.SAlvesJr.webService.model.Cliente;
 import com.SAlvesJr.webService.model.dto.ClienteDTO;
+import com.SAlvesJr.webService.model.dto.ClienteNewDTO;
 import com.SAlvesJr.webService.repositories.ClienteRepository;
 import com.SAlvesJr.webService.service.excepiton.ObjectNotFoundException;
 
@@ -23,7 +27,7 @@ public class ClienteService {
 
 	@Autowired
 	private CharacterService characterService;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -36,14 +40,13 @@ public class ClienteService {
 	@Transactional
 	public Cliente insert(Cliente cli) {
 		cli.setId(null);
-		cli.setSenha(bCryptPasswordEncoder.encode(cli.getSenha()));
 		return clienteRepository.save(cli);
 	}
 
 	public Cliente update(Cliente obj) {
 		Cliente newObj = findById(obj.getId());
 		updateData(newObj, obj);
-		return clienteRepository.save(obj);
+		return clienteRepository.save(newObj);
 	}
 
 	private void updateData(Cliente newObj, Cliente obj) {
@@ -72,9 +75,13 @@ public class ClienteService {
 		Cliente cli = findById(idCliente);
 		CharacterOBJ crObj = characterService.findCaractedId(idCharacter);
 		CharacterFavorite crFavorite = null;
+		List<Long> ids = new ArrayList<>();
 		if (crObj != null) {
-			crFavorite = new CharacterFavorite(Long.parseLong(crObj.getId()), crObj.getName(), cli);
-			if (!cli.getCharacterFavorite().contains(crFavorite)) {
+			crFavorite = new CharacterFavorite(null, crObj.getName(), Long.parseLong(crObj.getId()), cli);
+			for (CharacterFavorite element : cli.getCharacterFavorite()) {
+				ids.add(element.getIdCharacter());
+			}
+			if(!ids.contains(crFavorite.getIdCharacter())) {
 				characterService.saveFavorite(crFavorite);
 			}
 		}
@@ -84,5 +91,11 @@ public class ClienteService {
 	public List<CharacterFavorite> listFavorite(Long idCliente) {
 		Cliente cli = findById(idCliente);
 		return cli.getCharacterFavorite();
+	}
+
+	public Cliente fromDTO(@Valid ClienteNewDTO objDTO) {
+		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(),
+				bCryptPasswordEncoder.encode(objDTO.getSenha()));
+		return cli;
 	}
 }
