@@ -1,6 +1,7 @@
 package com.SAlvesJr.webService.resouce;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.SAlvesJr.webService.model.CharacterFavorite;
 import com.SAlvesJr.webService.model.Cliente;
 import com.SAlvesJr.webService.model.dto.ClienteDTO;
 import com.SAlvesJr.webService.service.ClienteService;
@@ -34,6 +36,20 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(obj);
 	}
 
+	@GetMapping(value = "/{id}/favoriteList")
+	public ResponseEntity<List<CharacterFavorite>> findFavorite(@PathVariable Long id) {
+		List<CharacterFavorite> obj = clienteService.listFavorite(id);
+		return ResponseEntity.ok().body(obj);
+	}
+
+	@PostMapping(value = "/{id}/addFavorite")
+	public ResponseEntity<Void> addFavorite(@RequestBody CharacterFavorite crFavorite, @PathVariable Long id) {
+		CharacterFavorite obj = clienteService.addCharacterFavorite(id, crFavorite.getId());
+		URI uri = ServletUriComponentsBuilder.fromCurrentServletMapping().path("clientes/{id}/favoriteList")
+				.buildAndExpand(obj.getCliente()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+
 	@GetMapping(value = "/email")
 	public ResponseEntity<Cliente> findByEmail(@RequestParam(value = "value") String email) {
 		Cliente obj = clienteService.findByEmail(email);
@@ -46,7 +62,7 @@ public class ClienteResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cli.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
+
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> putCliente(@Valid @RequestBody ClienteDTO objDTO, @PathVariable Long id) {
 		Cliente cat = clienteService.fromDTO(objDTO, id);

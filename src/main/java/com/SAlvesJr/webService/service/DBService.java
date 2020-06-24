@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.SAlvesJr.webService.model.CharacterFavorite;
 import com.SAlvesJr.webService.model.Cliente;
+import com.SAlvesJr.webService.repositories.CharacterFavoriteRepository;
 import com.SAlvesJr.webService.repositories.ClienteRepository;
 
 @Service
@@ -15,6 +17,9 @@ public class DBService {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
+
+	@Autowired
+	private CharacterFavoriteRepository characterFavorite;
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -26,6 +31,17 @@ public class DBService {
 
 		clienteRepository.saveAll(Arrays.asList(cl1));
 		clienteRepository.saveAll(Arrays.asList(cl2));
+
+		CharacterFavorite crF1 = new CharacterFavorite(null, "Batman", cl1);
+		CharacterFavorite crF2 = new CharacterFavorite(null, "Spidemand", cl1);
+
+		cl1.getCharacterFavorite().addAll(Arrays.asList(crF1, crF2));
+		
+		crF1.setCliente(cl1);
+		crF2.setCliente(cl1);
+
+		characterFavorite.saveAll(Arrays.asList(crF1));
+		characterFavorite.saveAll(Arrays.asList(crF2));
 
 	}
 
