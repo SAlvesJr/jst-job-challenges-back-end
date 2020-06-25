@@ -1,6 +1,5 @@
 package com.SAlvesJr.webService.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.SAlvesJr.webService.model.CharacterFavorite;
-import com.SAlvesJr.webService.model.CharacterOBJ;
 import com.SAlvesJr.webService.model.Cliente;
 import com.SAlvesJr.webService.model.dto.ClienteDTO;
 import com.SAlvesJr.webService.model.dto.ClienteNewDTO;
@@ -24,9 +22,6 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
-
-	@Autowired
-	private CharacterService characterService;
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -69,23 +64,6 @@ public class ClienteService {
 
 	public Cliente fromDTO(ClienteDTO obj, Long id) {
 		return new Cliente(id, obj.getNome(), obj.getEmail(), null);
-	}
-
-	public CharacterFavorite addCharacterFavorite(Long idCliente, Long idCharacter) {
-		Cliente cli = findById(idCliente);
-		CharacterOBJ crObj = characterService.findCaractedId(idCharacter);
-		CharacterFavorite crFavorite = null;
-		List<Long> ids = new ArrayList<>();
-		if (crObj != null) {
-			crFavorite = new CharacterFavorite(null, crObj.getName(), Long.parseLong(crObj.getId()), cli);
-			for (CharacterFavorite element : cli.getCharacterFavorite()) {
-				ids.add(element.getIdCharacter());
-			}
-			if(!ids.contains(crFavorite.getIdCharacter())) {
-				characterService.saveFavorite(crFavorite);
-			}
-		}
-		return crFavorite;
 	}
 
 	public List<CharacterFavorite> listFavorite(Long idCliente) {
