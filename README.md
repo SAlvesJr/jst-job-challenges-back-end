@@ -1,4 +1,3 @@
-# jst-job-challenges-back-end
 # Código desenvolvido para o Desafio @Justa Back-end
 
 As atividades foram feitas e atualizadas neste documento como definidas abaixo!
@@ -23,9 +22,9 @@ A arquitetura do projeto é formada por:
 
 ### APIs Públicas Utilizadas
 
--SuperHeroes (https://superheroapi.com/)
+- SuperHeroes (https://superheroapi.com/)
 
--Marvel (https://developer.marvel.com/)
+- Marvel (https://developer.marvel.com/)
 
 
 ### Requisistos Solicitados 
@@ -35,7 +34,7 @@ A arquitetura do projeto é formada por:
 - Java
 - Spring Boot
 - Banco de dados PostgreSQL
-- Swagge
+- Swagger
 
 ### Swagger
 ![](https://spring-back-ionic.s3-sa-east-1.amazonaws.com/swagger-back.png)
