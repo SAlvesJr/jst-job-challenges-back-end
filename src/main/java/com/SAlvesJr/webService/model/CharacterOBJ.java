@@ -14,6 +14,8 @@ public class CharacterOBJ {
 	private Powerstats powerstats;
 	@JsonProperty(value = "work")
 	private Work work;
+	@JsonProperty(value = "image")
+	private Image image;
 
 	public CharacterOBJ() {
 

@@ -18,7 +18,7 @@ public class CharacterService {
 	@Autowired
 	private CharacterFavoriteRepository repoFavorite;
 
-	@Value("${acsess.token}")
+	@Value("${access.token.superHero}")
 	private String token;
 
 	private static final String GET_FIND_CARACTED = "https://superheroapi.com/api/";
