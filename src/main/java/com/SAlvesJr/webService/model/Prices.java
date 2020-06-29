@@ -1,14 +1,8 @@
 package com.SAlvesJr.webService.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Prices {
 
-	@JsonProperty(value = "price")
 	private int price;
-	@JsonProperty(value = "type")
 	private String type;
 
 	public Prices() {

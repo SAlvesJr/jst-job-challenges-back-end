@@ -16,6 +16,7 @@ public class Comics {
 	@JsonProperty(value = "description")
 	private String description;
 
+	@JsonProperty(value = "prices")
 	private List<Prices> prices = new ArrayList<>();
 
 	public Comics() {

@@ -11,8 +11,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.SAlvesJr.webService.model.CharacterFavorite;
 import com.SAlvesJr.webService.model.CharacterOBJ;
-import com.SAlvesJr.webService.model.CharacterOBJList;
 import com.SAlvesJr.webService.model.Cliente;
+import com.SAlvesJr.webService.model.dto.CharacterOBJDTO;
 import com.SAlvesJr.webService.repositories.CharacterFavoriteRepository;
 import com.SAlvesJr.webService.service.excepiton.ObjectNotFoundException;
 
@@ -40,7 +40,7 @@ public class CharacterService {
 	public List<CharacterOBJ> searchName(String name) {
 		RestTemplate restTemplate = new RestTemplate();
 		String fooResourceUrl = GET_SEARCH_NAME + token + "/search/" + name;
-		CharacterOBJList response = restTemplate.getForObject(fooResourceUrl, CharacterOBJList.class);
+		CharacterOBJDTO response = restTemplate.getForObject(fooResourceUrl, CharacterOBJDTO.class);
 		return response.getListCharacterOBJ();
 	}
 
